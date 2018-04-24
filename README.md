@@ -18,3 +18,4 @@ Day 1:
 4/23/2018 1500: Setup imager_profile
 4/23/2018 1530: Created folders for templates and static. Adding to models.py
 4/23/2018 1640: Migrated our models file
+4/23/2018 1730: Finished project. All tests passed
