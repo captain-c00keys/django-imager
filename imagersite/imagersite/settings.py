@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'imagersite',
     'imager_profile',
+    'imager_images',
+    'sorl.thumbnail'
 ]
 
 MIDDLEWARE = [
