@@ -3,6 +3,7 @@ from .models import ImagerProfile, User
 import factory
 from random import randint, choice
 
+
 choices = (('DSLR', 'Digital Single Lens Reflex'),
                                        ('M', 'Mirrorless'),
                                        ('AC', 'Advanced Compact'),
@@ -18,12 +19,14 @@ choices2 = [('blackandwhite', 'Black and White'),
                 ('artistic', 'Artistic'),
                 ('underwater', 'Underwater')]
 
+
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
     username = factory.Faker('user_name')
     email = factory.Faker('email')
+
 
 class ProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -37,6 +40,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     camera = choice(choices)
     services = choice(choices1)
     photostyles = choice(choices2)
+
 
 class ProfileUnitTests(TestCase):
     @classmethod
