@@ -8,6 +8,9 @@
 tsconfig.json
 jsconfig.json
 
+##Adding media directory ###
+MEDIA/
+
 ### Django ###
 *.log
 *.pot
