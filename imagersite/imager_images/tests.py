@@ -30,13 +30,13 @@ class AlbumFactory(factory.django.DjangoModelFactory):
 
         model = Album
 
-    title = factory.Faker('words')
-    description = factory.Faker('sentences')
-    user = factory.Faker('name')
-    date_created = factory.Faker('past_date')
-    date_modified = factory.Faker('past_date')
-    date_published = factory.Faker('past_date')
-    published = choice(choices1)
+        title = factory.Faker('words')
+        description = factory.Faker('sentences')
+        user = factory.Faker('name')
+        date_created = factory.Faker('past_date')
+        date_modified = factory.Faker('past_date')
+        date_published = factory.Faker('past_date')
+        published = choice(choices1)
 
 
 class PhotoFactory(factory.django.DjangoModelFactory):
@@ -47,13 +47,13 @@ class PhotoFactory(factory.django.DjangoModelFactory):
 
         model = Photo
 
-    album = factory.Faker('words')
-    title = factory.Faker('words')
-    description = factory.Faker('sentences')
-    date_created = factory.Faker('past_date')
-    date_modified = factory.Faker('past_date')
-    date_published = factory.Faker('past_date')
-    published = choice(choices1)
+        album = factory.Faker('words')
+        title = factory.Faker('words')
+        description = factory.Faker('sentences')
+        date_created = factory.Faker('past_date')
+        date_modified = factory.Faker('past_date')
+        date_published = factory.Faker('past_date')
+        published = choice(choices1)
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -64,15 +64,15 @@ class UserFactory(factory.django.DjangoModelFactory):
 
         model = User
 
-    username = factory.Faker('user_name')
-    email = factory.Faker('email')
+        username = factory.Faker('user_name')
+        email = factory.Faker('email')
 
 
 class ProfileUnitTests(TestCase):
     """Dummy test for the profile."""
 
     @classmethod
-    def set_class(cls):
+    def setUpclass(cls):
         """Create user, album and photo data."""
         super(TestCase, cls)
         for _ in range(50):

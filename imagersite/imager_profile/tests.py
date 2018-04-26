@@ -28,8 +28,8 @@ class UserFactory(factory.django.DjangoModelFactory):
 
         model = User
 
-    username = factory.Faker('user_name')
-    email = factory.Faker('email')
+        username = factory.Faker('user_name')
+        email = factory.Faker('email')
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
@@ -40,14 +40,14 @@ class ProfileFactory(factory.django.DjangoModelFactory):
 
         model = ImagerProfile
 
-    bio = factory.Faker('sentence')
-    phone = factory.Faker('phone_number')
-    location = factory.Faker('street_address')
-    website = factory.Faker('uri')
-    fee = factory.Faker('pyint')
-    camera = choice(choices)
-    services = choice(choices1)
-    photostyles = choice(choices2)
+        bio = factory.Faker('sentence')
+        phone = factory.Faker('phone_number')
+        location = factory.Faker('street_address')
+        website = factory.Faker('uri')
+        fee = factory.Faker('pyint')
+        camera = choice(choices)
+        services = choice(choices1)
+        photostyles = choice(choices2)
 
 
 class ProfileUnitTests(TestCase):
