@@ -15,6 +15,7 @@ def profile_view(request, username=None):
         if username == '':
             return redirect('home')
 
+    # import pdb; pdb.set_trace()
     profile = get_object_or_404(ImagerProfile, user__username=username)
     albums = Album.objects.filter(user__username=username)
     photos = Photo.objects.filter(album__user__username=username)
