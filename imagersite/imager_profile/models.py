@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from multiselectfield import MultiSelectField
+from django.dispatch import receiver
 
 class ImagerProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
@@ -21,7 +22,7 @@ class ImagerProfile(models.Model):
                 ('landscape', 'LandScape'),
                 ('portraits', 'Portraits'),
                 ('art', 'Art')))
-    
+
     photostyles = MultiSelectField(
         choices=(('blackandwhite', 'Black and White'),
                 ('night', 'Night'),
@@ -38,3 +39,10 @@ class ImagerProfile(models.Model):
     @classmethod
     def active(cls):
         return cls.objects.filter(is_active=True)
+
+
+@receiver(models.signals.post_save, sender=User)
+def create_profile(sender, **kwargs):
+    if kwargs['created']:
+        profile = ImagerProfile(user=kwargs['instance'])
+        profile.save()
