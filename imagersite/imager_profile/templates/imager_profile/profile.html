@@ -52,16 +52,27 @@
             <td>{{ profile.photostyles}}</td>
         </tr>
 
+    {% if %}
         <tr>
-            <td>Photostyles</td>
-            <td>{{ photos.count }}</td>
+            <td>Number of Public Photos</td>
+            <td>{{ photos.filter(published='PUBLIC').count }}</td>
         </tr>
 
         <tr>
-            <td>Photostyles</td>
+            <td>Number of Public Albums</td>
             <td>{{ albums.count }}</td>
         </tr>
+    {% else %}
+        <tr>
+            <td>Number of Private Photos</td>
+            <td>{{ photos.filter(published='PRIVATE').count }}</td>
+        </tr>
 
+        <tr>
+            <td>Number of Private Albums</td>
+            <td>{{ albums.filter(published='PRIVATE').count }}</td>
+        </tr>
+    {% endif %}
     </table>
 
   </section>

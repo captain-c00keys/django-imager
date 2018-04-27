@@ -14,15 +14,6 @@
 </head>
 <body>
   <header>
-        {% if photos %}
-        {% for photo in photos %}
-        
-        <img src="{{photo.image.url}}" alt="My image"/>
-        
-        {% endfor %}
-        
-        {% else %}
-        {% endif %}
     <nav>
       <ul>
         <li><a href="{% url "home" %}">Home</a></li>
