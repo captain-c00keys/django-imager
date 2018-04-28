@@ -1,7 +1,7 @@
 """Image Urls."""
 
 from django.urls import path
-from .views import image_view, image_photo_view, image_one_photo
+from .views import image_view, image_photo_view, image_one_photo, library_view
 
 
 urlpatterns = [

@@ -30,3 +30,20 @@ def image_photo_view(request, photo_id=None):
 def image_one_photo(request, photo_id=None):
     """Render codes for profile."""
     return render(request, 'imager_images/images.html')
+
+
+def library_view(request):
+    """Handle library view request"""
+
+    import pdb; pdb.set_trace()
+    username = request.user.get_username()
+    photos = Photo.objects.filter(user__username=username)
+    albums = Album.objects.filter(user_username=username)
+
+    context = {
+        'photos': photos,
+        'albums': albums,
+        'username': username
+    }
+
+    return render(request, 'imager_images/library.html', context)
