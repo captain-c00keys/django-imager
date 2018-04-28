@@ -17,17 +17,27 @@ def profile_view(request, username=None):
 
     # import pdb; pdb.set_trace()
     profile = get_object_or_404(ImagerProfile, user__username=username)
+
     albums = Album.objects.filter(user__username=username)
+    albums_public = albums.filter(published='PUBLIC')
+    albums_private = albums.filter(published='PRIVATE')
+
     photos = Photo.objects.filter(album__user__username=username)
+    photos_public = photos.filter(published='PUBLIC')
+    photos_private = photos.filter(published='PRIVATE')
 
     if not owner:
-        photos = Photo.objects.filter(published='PUBLIC')
-        albums = Album.objects.filter(published='PUBLIC')
+        photos_public = Photo.objects.filter(published='PUBLIC')
+        photos_private = 'None'
+        albums_public = Album.objects.filter(published='PUBLIC')
+        albums_private = 'None'
 
     context = {
         'profile': profile,
-        'albums': albums,
-        'photos': photos
+        'photos_public': photos_public,
+        'photos_private': photos_private,
+        'albums_public': albums_public,
+        'albums_private': albums_private,
     }
 
     return render(request, 'imager_profile/profile.html', context)

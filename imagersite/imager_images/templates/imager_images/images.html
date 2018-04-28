@@ -1,0 +1,36 @@
+{% extends 'generic/base.html' %}
+
+{% block content %}
+<h2>images/photo</h2>
+
+    {% for photo in photos %}
+        <table>
+            <tr>
+                <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
+            </tr>
+            <tr>
+                <td>Title</td>
+                <td>{{ photo.title }}</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>{{ photo.description }}</td>
+            </tr>
+            <tr>
+                <td>Date Created</td>
+                <td>{{ photo.date_created }}</td>
+            </tr>
+            <tr>
+                <td>Date Modified</td>
+                <td>{{ photo.date_modified }}</td>
+            </tr>
+            <tr>
+                <td>Date Published</td>
+                <td>{{ photo.date_published }}</td>
+            </tr>
+        </table>
+    
+    {% endfor %}
+
+
+{% endblock %}
