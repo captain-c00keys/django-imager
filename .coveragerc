@@ -1,0 +1,19 @@
+[run]
+branch = True
+
+omit =
+    */migrations/*
+    */test/*
+    */tests.py
+    */admin.py
+    */permissions.py
+    */apps.py
+    */__init__.py
+    */manage.py
+    */wsgi.py
+
+source =
+    imagersite
+
+[report]
+show_missing = True

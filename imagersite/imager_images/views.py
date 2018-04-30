@@ -3,45 +3,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from imager_images.models import Album, Photo
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-
-def image_view(request):
-    """Render codes for profile."""
-    return render(request, 'imager_images/images.html')
-
-
-def image_photo_view(request, photo_id=None):
-    """Render codes for profile."""
-    if photo_id:
-        # display an appropriately sized rendering of the photo, perhaps with a lightbox feature to show the full-sized image. It should also display any metadata available about the photo
-        photos = Photo.objects.filter(id=photo_id).all()
-
-    else:
-        # display all the public photos
-        photos = Photo.objects.filter(published='PUBLIC').all()
-
-    context = {
-        'photos': photos
-    }
-
-    return render(request, 'imager_images/images.html', context)
-
-
-def image_album_view(request, album_id=None):
-    """Render codes for profile."""
-    if album_id:
-        # display an appropriately sized rendering of the photo, perhaps with a lightbox feature to show the full-sized image. It should also display any metadata available about the photo
-        albums = Album.objects.filter(id=album_id).all()
-
-    else:
-        # display all the public photos
-        albums = Photo.objects.filter(published='PUBLIC').all()
-
-    context = {
-        'albums': albums
-    }
-
-    return render(request, 'imager_images/images.html', context)
+from django.contrib.auth.models import User
 
 
 def library_view(request):
@@ -106,6 +68,7 @@ def photo_view(request):
 
 def photo_detail_view(request, id=None):
     """Define the library view."""
+    # import pdb; pdb.set_trace()
     this_photo = Photo.objects.filter(id=id).first()
 
     context = {
