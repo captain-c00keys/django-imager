@@ -4,11 +4,11 @@
 
 {% block content %}
 <section class="photo-container container">
-    <h2>Public Photos</h2>
-    {% for photo in public_photos %}
-    {% thumbnail photo.image "100x100" crop="center" as im %}
-    <a href="{% url "photo_detail" id=photo.id %}"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
-    {% endthumbnail %}       
-    {% endfor %}
+  <h2>Public Photos</h2>
+  {% for photo in public_photos %}
+    {% thumbnail photo.image "75x75" crop="center" as im %}
+      <img src="{{ im.url }}" alt="{{ im.url }}" title="{{ photo.id }}" onclick="showImage('{{ photo.image.url }}');" />
+    {% endthumbnail %}   
+  {% endfor %}
 </section>
 {% endblock content %}

@@ -80,6 +80,7 @@ def album_view(request):
 def photo_view(request):
     """Define the library view."""
     public_photos = Photo.objects.filter(published='PUBLIC')
+    # import pdb; pdb.set_trace()
 
     context = {
         'public_photos': public_photos,
