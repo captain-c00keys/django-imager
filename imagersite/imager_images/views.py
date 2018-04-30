@@ -12,7 +12,6 @@ def image_view(request):
 
 def image_photo_view(request, photo_id=None):
     """Render codes for profile."""
-
     if photo_id:
         # display an appropriately sized rendering of the photo, perhaps with a lightbox feature to show the full-sized image. It should also display any metadata available about the photo
         photos = Photo.objects.filter(id=photo_id).all()
@@ -28,17 +27,33 @@ def image_photo_view(request, photo_id=None):
     return render(request, 'imager_images/images.html', context)
 
 
-def image_one_photo(request, photo_id=None):
+def image_album_view(request, album_id=None):
     """Render codes for profile."""
-    return render(request, 'imager_images/images.html')
+    if album_id:
+        # display an appropriately sized rendering of the photo, perhaps with a lightbox feature to show the full-sized image. It should also display any metadata available about the photo
+        albums = Album.objects.filter(id=album_id).all()
+
+    else:
+        # display all the public photos
+        albums = Photo.objects.filter(published='PUBLIC').all()
+
+    context = {
+        'albums': albums
+    }
+
+    return render(request, 'imager_images/images.html', context)
 
 
 def library_view(request):
-    """Handle library view request"""
-
+    """Handle library view request."""
+    # import pdb; pdb.set_trace()
     username = request.user.get_username()
+
+    if username == '':
+        return redirect('home')
+    profile = get_object_or_404(User, username=username)
     photos = Photo.objects.filter(user__username=username)
-    albums = Album.objects.filter(user_username=username)
+    albums = Album.objects.filter(user__username=username)
 
     album_page = request.GET.get("album_page", 1)
     photo_page = request.GET.get("photo_page", 1)
