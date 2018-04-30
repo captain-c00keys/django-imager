@@ -68,7 +68,7 @@ def photo_view(request):
 
 def photo_detail_view(request, id=None):
     """Define the library view."""
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     this_photo = Photo.objects.filter(id=id).first()
 
     context = {
