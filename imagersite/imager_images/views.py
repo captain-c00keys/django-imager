@@ -2,6 +2,7 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from imager_images.models import Album, Photo
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def image_view(request):
@@ -36,6 +37,8 @@ def library_view(request):
     """Handle library view request"""
 
     import pdb; pdb.set_trace()
+    a = [1, 2, 3, 4, 5]
+    p = Paginator(a, 2)
     username = request.user.get_username()
     photos = Photo.objects.filter(user__username=username)
     albums = Album.objects.filter(user_username=username)
