@@ -75,3 +75,25 @@ def album_view(request):
     }
 
     return render(request, 'imager_images/album.html', context)
+
+
+def photo_view(request):
+    """Define the library view."""
+    public_photos = Photo.objects.filter(published='PUBLIC')
+
+    context = {
+        'public_photos': public_photos,
+    }
+
+    return render(request, 'imager_images/photo.html', context)
+
+
+def photo_detail_view(request, id=None):
+    """Define the library view."""
+    this_photo = Photo.objects.filter(id=id).first()
+
+    context = {
+        'this_photo': this_photo,
+    }
+
+    return render(request, 'imager_images/photo_detail.html', context)
