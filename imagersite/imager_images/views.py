@@ -2,7 +2,7 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from imager_images.models import Album, Photo
-from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def image_view(request):
@@ -55,37 +55,61 @@ def library_view(request):
     photos = Photo.objects.filter(user__username=username)
     albums = Album.objects.filter(user__username=username)
 
+    album_page = request.GET.get("album_page", 1)
+    photo_page = request.GET.get("photo_page", 1)
+
+    album_pages = Paginator(albums, 2)
+    photo_pages = Paginator(photos, 4)
+
+    try:
+        albums = album_pages.page(album_page)
+        photos = photo_pages.page(photo_page)
+    except PageNotAnInteger:
+        albums = album_pages.page(1)
+        photos = photo_pages.page(1)
+    except EmptyPage:
+        albums = album_pages.page(album_pages.num_pages)
+        photos = photo_pages.page(photo_pages.num_pages)
+
     context = {
         'photos': photos,
         'albums': albums,
         'username': username,
-        'profile': profile
     }
 
     return render(request, 'imager_images/library.html', context)
 
 
-def image_detail_photo_view(request):
-    """Filter out id from photos."""
-    image_detail = Photo.object.filter(id=id).first()
+def album_view(request):
+    """Show all public albums."""
+
+    public_albums = Album.objects.filter(published='PUBLIC')
 
     context = {
-        'image_detail': image_detail
+        'public_albums': public_albums,
     }
 
-    return render(request, 'imager_images/image_photo_detail', context)
+    return render(request, 'imager_images/album.html', context)
 
 
-def image_detail_album_view(request):
-    """Filter out id from albums."""
-    album_detail = Album.object.filter(id=id).first()
+def photo_view(request):
+    """Define the library view."""
+    public_photos = Photo.objects.filter(published='PUBLIC')
+    # import pdb; pdb.set_trace()
 
     context = {
-        'album_detail': album_detail
+        'public_photos': public_photos,
     }
 
-    return render(request, 'imager_images/image_album_detail', context)
+    return render(request, 'imager_images/photo.html', context)
 
-# def image_one_photo(request, photo_id=None):
-#     """Render codes for profile."""
-#     return render(request, 'imager_images/images.html')
+
+def photo_detail_view(request, id=None):
+    """Define the library view."""
+    this_photo = Photo.objects.filter(id=id).first()
+
+    context = {
+        'this_photo': this_photo,
+    }
+
+    return render(request, 'imager_images/photo_detail.html', context)
