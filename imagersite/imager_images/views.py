@@ -36,17 +36,42 @@ def image_one_photo(request, photo_id=None):
 def library_view(request):
     """Handle library view request"""
 
-    import pdb; pdb.set_trace()
-    a = [1, 2, 3, 4, 5]
-    p = Paginator(a, 2)
     username = request.user.get_username()
     photos = Photo.objects.filter(user__username=username)
     albums = Album.objects.filter(user_username=username)
 
+    album_page = request.GET.get("album_page", 1)
+    photo_page = request.GET.get("photo_page", 1)
+
+    album_pages = Paginator(albums, 2)
+    photo_pages = Paginator(photos, 4)
+
+    try:
+        albums = album_pages.page(album_page)
+        photos = photo_pages.page(photo_page)
+    except PageNotAnInteger:
+        albums = album_pages.page(1)
+        photos = photo_pages.page(1)
+    except EmptyPage:
+        albums = album_pages.page(album_pages.num_pages)
+        photos = photo_pages.page(photo_pages.num_pages)
+
     context = {
         'photos': photos,
         'albums': albums,
-        'username': username
+        'username': username,
     }
 
     return render(request, 'imager_images/library.html', context)
+
+
+def album_view(request):
+    """Show all public albums."""
+
+    public_albums = Album.objects.filter(published='PUBLIC')
+
+    context = {
+        'public_albums': public_albums,
+    }
+
+    return render(request, 'imager_images/album.html', context)
