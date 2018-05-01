@@ -17,7 +17,7 @@ def home_view(request):
         pic_path = None
 
     context = {
-        'message': 'Hellow World',
+        'message': 'Hello World',
         'photos': photos,
         'pic_path': pic_path
     }
