@@ -22,10 +22,10 @@ class TestImageRoutes(TestCase):
             user.set_password('password')
             user.save()
             album = mommy.make(Album, user=user)
-            mommy.make(
+            photo = mommy.make(
                 Photo,
-                album=album,
                 image=tempfile.NamedTemporaryFile(suffix='.png').name)
+            # album.photos.add(photo)
 
     @classmethod
     def tearDownClass(cls):
@@ -55,9 +55,9 @@ class TestImageRoutes(TestCase):
     #     response = self.client.get('/store/products/{}'.format(product.id))
     #     self.assertEqual(response.status_code, 302)
 
-    # def test_404_status_on_bad_request_to_product(self):
-    #     response = self.client.get('/store/products/does_not_exist')
-    #     self.assertEqual(response.status_code, 404)
+    def test_404_status_on_bad_request_to_photo(self):
+        response = self.client.get('/images/photos/does_not_exist')
+        self.assertEqual(response.status_code, 404)
 
     def test_302_status_on_unauthenticated_request_to_photos(self):
         """Test unauthenticated requests."""

@@ -1,6 +1,6 @@
 """Doc string."""
 from django.test import TestCase
-from .models import Album, Photo
+from imager_images.models import Album, Photo
 from imager_profile.models import User
 import factory
 from random import choice

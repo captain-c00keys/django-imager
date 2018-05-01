@@ -16,6 +16,7 @@ class Album(models.Model):
         null=True,
         blank=True)
 
+    photos = models.ManyToManyField('Photo', related_name='albums')
     name = models.CharField(max_length=180, default='Untitled')
     description = models.TextField(blank=True, null=True)
     date_created = models.DateField(auto_now_add=True)
@@ -40,7 +41,6 @@ class Photo(models.Model):
 
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='photos')
-    album = models.ManyToManyField(Album, related_name='photos')
     image = ImageField(upload_to='images', null=False, blank=False)
     title = models.CharField(max_length=180, default='Untitled')
     description = models.TextField(blank=True, null=True)
