@@ -1,5 +1,11 @@
 {% extends 'generic/base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>Welcome to the home page!</h2>
+<h2></h2>
+{% if pic_path %}
+<img src="{{ pic_path }}">
+{% else %}
+<img src="{% static 'static_image.png' %}">
+{% endif %}
 {% endblock %}

@@ -1,0 +1,21 @@
+
+body {
+    width: 1200px;
+    background: lightcyan;
+}
+
+header {
+   background: lightsalmon;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 0px;
+    border: solid darkblue;
+    border-radius: 10px;
+    border-width: 5px 20px 5px 20px;
+}
+
+nav {
+    margin: 10px;
+}
