@@ -22,7 +22,7 @@ def profile_view(request, username=None):
     albums_public = albums.filter(published='PUBLIC')
     albums_private = albums.filter(published='PRIVATE')
 
-    photos = Photo.objects.filter(album__user__username=username)
+    photos = Photo.objects.filter(user__username=username)
     photos_public = photos.filter(published='PUBLIC')
     photos_private = photos.filter(published='PRIVATE')
 
