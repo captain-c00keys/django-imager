@@ -1,7 +1,5 @@
 """Image Urls."""
 
-"""Image Urls."""
-
 from django.urls import path
 from .views import library_view, photo_detail_view, photo_view
 

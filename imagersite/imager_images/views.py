@@ -34,9 +34,12 @@ def library_view(request):
         photos = photo_pages.page(photo_pages.num_pages)
 
     context = {
+        'profile': profile,
         'photos': photos,
         'albums': albums,
         'username': username,
+        'album_pages': album_pages,
+        'photo_pages': album_pages
     }
 
     return render(request, 'imager_images/library.html', context)
@@ -44,7 +47,6 @@ def library_view(request):
 
 def album_view(request):
     """Show all public albums."""
-
     public_albums = Album.objects.filter(published='PUBLIC')
 
     context = {
