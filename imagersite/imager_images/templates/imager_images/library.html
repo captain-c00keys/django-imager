@@ -11,6 +11,7 @@
       <img title="{{album.title}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
       {% endthumbnail %}
       </a>
+    {% endfor %}
 
     {% for page_num in albums.paginator.page_range %}
         <li><a href="?photo_page={{ photos.number }}&album_page={{ page_num }}">Page {{ page_num }}</a></li>
