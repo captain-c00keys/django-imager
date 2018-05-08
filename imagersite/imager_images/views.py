@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Album, Photo
 from django.contrib.auth.models import User
+from django.views.generic import ListView
 
 
 def library_view(request):
@@ -22,6 +23,30 @@ def library_view(request):
     }
 
     return render(request, 'imager_images/library.html', context)
+
+
+class PhotoView(ListView):
+    """Render public photos page."""
+
+    template_name = 'imager_images/photo.html'
+    context_object_name = 'photos'
+
+    def get(self, *args, **kwargs):
+        """Redirect home if user's not authenticated."""
+        if not self.request.user.is_authenticated:
+            return redirect('home')
+
+        return super().get(*args, **kwargs)
+
+    def get_queryset(self):
+        """Grab photo objects."""
+        return Photo.objects.filter(published='PUBLIC')
+
+    def get_context_data(self, **kwargs):
+        """Grab contents for context."""
+        context = super().get_context_data(**kwargs)
+
+        return context
 
 
 def album_view(request):
