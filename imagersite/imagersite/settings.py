@@ -22,6 +22,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', None)
 
+# email host
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+
+# email port
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+
+# email host user
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+
+# email host password
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+# email use TLS
+EMAIL_USE_TLS = True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
 
@@ -138,5 +152,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
 # Django Registration Settings
 ACCOUNT_ACTIVATION_DAYS = 1
 LOGIN_REDIRECT_URL = '/profile'
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# if DEBUG:
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
