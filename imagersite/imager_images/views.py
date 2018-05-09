@@ -2,7 +2,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Album, Photo
 from django.contrib.auth.models import User
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
+from django.urls import reverse_lazy
 
 
 class LibraryView(ListView):
@@ -79,6 +80,20 @@ class PhotoDetail(ListView):
     def get_queryset(self):
         """Filter object."""
         return Photo.objects.filter(id=self.kwargs['id']).first()
+
+
+class AddPhoto(CreateView):
+    """Add photo."""
+
+    template_name = 'imager_images/add_photo.html'
+    model = Photo
+    fields = ['image', 'title', 'description', 'published']
+    success_url = reverse_lazy('library')
+
+    def form_valid(self, form):
+        """If form is valid, save, assign user and re-direct."""
+        form.instance.user = self.request.user
+        return super(CreateView, self).form_valid(form)
 
 
 class AlbumView(ListView):
