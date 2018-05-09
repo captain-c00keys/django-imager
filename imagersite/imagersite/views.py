@@ -5,6 +5,7 @@ from imager_images.models import Photo
 from random import choice
 
 
+
 def home_view(request):
     """View is for homepage."""
     photos = Photo.objects.all()
