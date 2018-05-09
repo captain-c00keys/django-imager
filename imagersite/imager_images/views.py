@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Album, Photo
 from django.contrib.auth.models import User
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 
 
@@ -11,7 +11,7 @@ class LibraryView(ListView):
 
     template_name = 'imager_images/library.html'
     context_object_name = 'library'
-    
+
     def get(self, *args, **kwargs):
         """Retrieve keyword args."""
         if not self.request.user.is_authenticated:
@@ -26,37 +26,17 @@ class LibraryView(ListView):
                                       .user.username)
         albums = Album.objects.filter(user__username=self.request
                                       .user.username)
+        return photos, albums
 
     def get_context_data(self, **kwargs):
         """Pass context objects."""
         context = super().get_context_data(**kwargs)
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         context['albums'] = context['library']
         context['photos'] = context['library']
         del context['library']
 
         return context
-    
-
-
-# def library_view(request):
-#     """Handle library view request."""
-#     # import pdb; pdb.set_trace()
-#     username = request.user.get_username()
-
-#     if username == '':
-#         return redirect('home')
-#     profile = get_object_or_404(User, username=username)
-#     photos = Photo.objects.filter(user__username=username)
-#     albums = Album.objects.filter(user__username=username)
-
-#     context = {
-#         'profile': profile,
-#         'albums': albums,
-#         'photos': photos,
-#     }
-
-#     return render(request, 'imager_images/library.html', context)
 
 
 class PhotoView(ListView):
@@ -67,19 +47,17 @@ class PhotoView(ListView):
     queryset = Photo.objects.filter(published='PUBLIC')
 
 
-class PhotoDetail(ListView):
+class PhotoDetail(DetailView):
     """Render photo detail page."""
 
     template_name = 'imager_images/photo_detail.html'
     context_object_name = 'this_photo'
-
-    def get(self, *args, **kwargs):
-        """Retrieve keyword args."""
-        return super().get(*args, **kwargs)
+    model = Photo
+    pk_url_kwarg = 'id'
 
     def get_queryset(self):
         """Filter object."""
-        return Photo.objects.filter(id=self.kwargs['id']).first()
+        return Photo.objects.filter(published='PUBLIC')
 
 
 class AddPhoto(CreateView):
@@ -88,7 +66,7 @@ class AddPhoto(CreateView):
     template_name = 'imager_images/add_photo.html'
     model = Photo
     fields = ['image', 'title', 'description', 'published']
-    form_class = AddPhotoForm
+    # form_class = AddPhotoForm
     success_url = reverse_lazy('library')
 
     def form_valid(self, form):
@@ -125,7 +103,7 @@ class AddAlbum(CreateView):
 
     template_name = 'imager_images/add_album.html'
     model = Album
-    form_class = AddAlbumForm
+    # form_class = AddAlbumForm
     success_url = reverse_lazy('library')
 
     def form_valid(self, form):
