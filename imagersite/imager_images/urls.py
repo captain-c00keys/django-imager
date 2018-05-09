@@ -1,13 +1,15 @@
 """Image Urls."""
 from django.urls import path
-from .views import library_view, photo_detail_view, photo_view, album_view, \
-     album_detail_view
+from .views import LibraryView, PhotoView, AlbumView, \
+     AlbumDetail, PhotoDetail, AddPhoto, AddAlbum
 
 
 urlpatterns = [
-    path('library/', library_view, name='library'),
-    path('albums/', album_view, name='albums'),
-    path('photos/', photo_view, name='photos'),
-    path('albums/<int:id>', album_detail_view, name='album_detail'),
-    path('photos/<int:id>', photo_detail_view, name='photo_detail'),
+    path('library/', LibraryView.as_view(), name='library'),
+    path('albums/', AlbumView.as_view(), name='albums'),
+    path('photos/', PhotoView.as_view(), name='photos'),
+    path('albums/<int:id>', AlbumDetail.as_view(), name='album_detail'),
+    path('photos/<int:id>', PhotoDetail.as_view(), name='photo_detail'),
+    path('photos/add', AddPhoto.as_view(), name='add_photo'),
+    path('albums/add', AddAlbum.as_view(), name='add_album'),
 ]

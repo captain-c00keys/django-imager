@@ -1,0 +1,12 @@
+{% extends 'generic/base.html' %}
+
+{% block content %}
+  <h2>New Photo Add Form</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+
+  <p><a href="{% url 'home' %}">Return to home</a></p>
+{% endblock %}

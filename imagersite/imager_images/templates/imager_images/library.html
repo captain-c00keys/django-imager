@@ -13,10 +13,6 @@
       </a>
     {% endfor %}
 
-    {% for page_num in albums.paginator.page_range %}
-        <li><a href="?photo_page={{ photos.number }}&album_page={{ page_num }}">Page {{ page_num }}</a></li>
-    {% endfor %}
-
     <h1>{{ user.username }}'s Photos</h1>
 
     {% for photo in photos %}
