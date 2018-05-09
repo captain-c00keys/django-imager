@@ -32,8 +32,8 @@ class LibraryView(ListView):
         """Pass context objects."""
         context = super().get_context_data(**kwargs)
         # import pdb; pdb.set_trace()
-        context['albums'] = context['library']
-        context['photos'] = context['library']
+        context['photos'] = context['library'][0]
+        context['albums'] = context['library'][1]
         del context['library']
 
         return context
@@ -65,6 +65,7 @@ class AddPhoto(CreateView):
 
     template_name = 'imager_images/add_photo.html'
     model = Photo
+    # import pdb; pdb.set_trace()
     fields = ['image', 'title', 'description', 'published']
     # form_class = AddPhotoForm
     success_url = reverse_lazy('library')
@@ -83,19 +84,16 @@ class AlbumView(ListView):
     queryset = Album.objects.filter(published='PUBLIC')
 
 
-class AlbumDetail(ListView):
+class AlbumDetail(DetailView):
     """Render album detail page."""
-
     template_name = 'imager_images/album_detail.html'
     context_object_name = 'this_album'
-
-    def get(self, *args, **kwargs):
-        """Retrieve keyword args."""
-        return super().get(*args, **kwargs)
+    model = Album
+    pk_url_kwarg = 'id'
 
     def get_queryset(self):
         """Filter object."""
-        return Album.objects.filter(id=self.kwargs['id']).first()
+        return Album.objects.filter(published='PUBLIC')
 
 
 class AddAlbum(CreateView):
