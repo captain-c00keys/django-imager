@@ -5,24 +5,48 @@ from django.contrib.auth.models import User
 from django.views.generic import ListView
 
 
-def library_view(request):
-    """Handle library view request."""
-    # import pdb; pdb.set_trace()
-    username = request.user.get_username()
+class LibraryView(ListView):
+    """."""
 
-    if username == '':
-        return redirect('home')
-    profile = get_object_or_404(User, username=username)
-    photos = Photo.objects.filter(user__username=username)
-    albums = Album.objects.filter(user__username=username)
+    template_name = 'imager_images/library.html'
+    
+    def get(self, *args, **kwargs):
+        """Retrieve keyword args."""
+        if not self.request.user.is_authenticated:
+            return redirect('home')
 
-    context = {
-        'profile': profile,
-        'albums': albums,
-        'photos': photos,
-    }
+        return super().get(*args, **kwargs)
 
-    return render(request, 'imager_images/library.html', context)
+    def get_queryset(self):
+        """Filter object."""
+        import pdb; pdb.set_trace()
+        profile = get_object_or_404(User, username=self.request.user.username)
+        photos = Photo.objects.filter(user__username=self.request.user.username).first()
+        albums = Album.objects.filter(user__username=self.request.user.username).first()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+    
+
+
+# def library_view(request):
+#     """Handle library view request."""
+#     # import pdb; pdb.set_trace()
+#     username = request.user.get_username()
+
+#     if username == '':
+#         return redirect('home')
+#     profile = get_object_or_404(User, username=username)
+#     photos = Photo.objects.filter(user__username=username)
+#     albums = Album.objects.filter(user__username=username)
+
+#     context = {
+#         'profile': profile,
+#         'albums': albums,
+#         'photos': photos,
+#     }
+
+#     return render(request, 'imager_images/library.html', context)
 
 
 class PhotoView(ListView):
