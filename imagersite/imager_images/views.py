@@ -88,6 +88,7 @@ class AddPhoto(CreateView):
     template_name = 'imager_images/add_photo.html'
     model = Photo
     fields = ['image', 'title', 'description', 'published']
+    form_class = AddPhotoForm
     success_url = reverse_lazy('library')
 
     def form_valid(self, form):
@@ -117,3 +118,17 @@ class AlbumDetail(ListView):
     def get_queryset(self):
         """Filter object."""
         return Album.objects.filter(id=self.kwargs['id']).first()
+
+
+class AddAlbum(CreateView):
+    """Add photo."""
+
+    template_name = 'imager_images/add_album.html'
+    model = Album
+    form_class = AddAlbumForm
+    success_url = reverse_lazy('library')
+
+    def form_valid(self, form):
+        """If form is valid, save, assign user and re-direct."""
+        form.instance.user = self.request.user
+        return super(CreateView, self).form_valid(form)
