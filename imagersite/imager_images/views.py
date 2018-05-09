@@ -98,10 +98,11 @@ class AlbumDetail(DetailView):
 
 class AddAlbum(CreateView):
     """Add photo."""
-
+    # import pdb; pdb.set_trace()
     template_name = 'imager_images/add_album.html'
     model = Album
     # form_class = AddAlbumForm
+    fields = ['user', 'cover', 'photos', 'name', 'published']
     success_url = reverse_lazy('library')
 
     def form_valid(self, form):
