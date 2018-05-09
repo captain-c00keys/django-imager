@@ -30,65 +30,42 @@ class PhotoView(ListView):
 
     template_name = 'imager_images/photo.html'
     context_object_name = 'photos'
+    queryset = Photo.objects.filter(published='PUBLIC')
+
+
+class PhotoDetail(ListView):
+    """Render photo detail page."""
+
+    template_name = 'imager_images/photo_detail.html'
+    context_object_name = 'this_photo'
 
     def get(self, *args, **kwargs):
-        """Redirect home if user's not authenticated."""
-        if not self.request.user.is_authenticated:
-            return redirect('home')
-
+        """Retrieve keyword args."""
         return super().get(*args, **kwargs)
 
     def get_queryset(self):
-        """Grab photo objects."""
-        return Photo.objects.filter(published='PUBLIC')
-
-    def get_context_data(self, **kwargs):
-        """Grab contents for context."""
-        context = super().get_context_data(**kwargs)
-
-        return context
+        """Filter object."""
+        return Photo.objects.filter(id=self.kwargs['id']).first()
 
 
-def album_view(request):
-    """Show all public albums."""
+class AlbumView(ListView):
+    """Render public albums page."""
 
-    public_albums = Album.objects.filter(published='PUBLIC')
-
-    context = {
-        'public_albums': public_albums,
-    }
-
-    return render(request, 'imager_images/album.html', context)
+    template_name = 'imager_images/album.html'
+    context_object_name = 'public_albums'
+    queryset = Album.objects.filter(published='PUBLIC')
 
 
-def album_detail_view(request, id=None):
-    """Show detail album."""
-    this_album = Album.objects.filter(id=id).first()
+class AlbumDetail(ListView):
+    """Render album detail page."""
 
-    context = {
-        'this_album': this_album,
-    }
+    template_name = 'imager_images/album_detail.html'
+    context_object_name = 'this_album'
 
-    return render(request, 'imager_images/album_detail.html', context)
+    def get(self, *args, **kwargs):
+        """Retrieve keyword args."""
+        return super().get(*args, **kwargs)
 
-
-def photo_view(request):
-    """Define the library view."""
-    public_photos = Photo.objects.filter(published='PUBLIC')
-
-    context = {
-        'public_photos': public_photos,
-    }
-
-    return render(request, 'imager_images/photo.html', context)
-
-
-def photo_detail_view(request, id=None):
-    """Define the library view."""
-    this_photo = Photo.objects.filter(id=id).first()
-
-    context = {
-        'this_photo': this_photo,
-    }
-
-    return render(request, 'imager_images/photo_detail.html', context)
+    def get_queryset(self):
+        """Filter object."""
+        return Album.objects.filter(id=self.kwargs['id']).first()
