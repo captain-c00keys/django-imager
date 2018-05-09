@@ -6,9 +6,10 @@ from django.views.generic import ListView
 
 
 class LibraryView(ListView):
-    """."""
+    """Render library page."""
 
     template_name = 'imager_images/library.html'
+    context_object_name = 'library'
     
     def get(self, *args, **kwargs):
         """Retrieve keyword args."""
@@ -19,13 +20,21 @@ class LibraryView(ListView):
 
     def get_queryset(self):
         """Filter object."""
-        import pdb; pdb.set_trace()
-        profile = get_object_or_404(User, username=self.request.user.username)
-        photos = Photo.objects.filter(user__username=self.request.user.username).first()
-        albums = Album.objects.filter(user__username=self.request.user.username).first()
+        # import pdb; pdb.set_trace()
+        photos = Photo.objects.filter(user__username=self.request
+                                      .user.username)
+        albums = Album.objects.filter(user__username=self.request
+                                      .user.username)
 
     def get_context_data(self, **kwargs):
+        """Pass context objects."""
         context = super().get_context_data(**kwargs)
+        import pdb; pdb.set_trace()
+        context['albums'] = context['library']
+        context['photos'] = context['library']
+        del context['library']
+
+        return context
     
 
 
