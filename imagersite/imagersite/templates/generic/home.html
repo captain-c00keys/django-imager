@@ -1,5 +1,4 @@
 {% extends 'generic/base.html' %}
-{% load sass_tags %}
 
 
 {% block content %}
@@ -7,6 +6,6 @@
 {% if pic_path %}
 <img src="{{ pic_path }}">
 {% else %}
-<img src="{% static 'static_image.png' %}">
+{% comment %} <img id="home_img" src="{% 'static_image.png' %}"> {% endcomment %}
 {% endif %}
 {% endblock %}
