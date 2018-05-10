@@ -55,32 +55,32 @@
     {% if photos_private == 'None' %}
         <tr>
             <td>Number of Public Photos</td>
-            <td>{{ photos_public.count }}</td>
+            <td>{{ photos_public_count }}</td>
         </tr>
 
         <tr>
             <td>Number of Public Albums</td>
-            <td>{{ albums_public.count }}</td>
+            <td>{{ albums_public_count }}</td>
         </tr>
     {% else %}
         <tr>
             <td>Number of Public Photos</td>
-            <td>{{ photos_public.count }}</td>
+            <td>{{ photos_public_count }}</td>
         </tr>
               
         <tr>
             <td>Number of Private Photos</td>
-            <td>{{ photos_private.count }}</td>
+            <td>{{ photos_private_count }}</td>
         </tr>
         
         <tr>
             <td>Number of Public Albums</td>
-            <td>{{ albums_private.count }}</td>
+            <td>{{ albums_private_count }}</td>
         </tr>
 
         <tr>
             <td>Number of Private Albums</td>
-            <td>{{ albums_private.count }}</td>
+            <td>{{ albums_private_count }}</td>
         </tr>
     {% endif %}
     </table>
