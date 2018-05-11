@@ -123,3 +123,4 @@ class EditAlbum(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('auth_login')
     success_url = reverse_lazy('library')
     pk_url_kwarg = 'id'
+    import pdb; pdb.set_trace()
