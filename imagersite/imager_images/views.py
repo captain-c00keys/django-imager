@@ -124,3 +124,8 @@ class EditAlbum(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('library')
     pk_url_kwarg = 'id'
     import pdb; pdb.set_trace()
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['username'] = self.request.user.get_username()
+        return kwargs
