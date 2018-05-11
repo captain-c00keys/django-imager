@@ -4,6 +4,7 @@
 
 {% block content %}
 <section class="photo-container container">
+  <a href="{% url "add_photo" %}">Add Photo</a>
   <h2>Public Photos</h2>
   {% for photo in photos %}
   <a href="{% url 'photo_detail' id=photo.id %}">
