@@ -12,6 +12,7 @@
       <img title="{{album.title}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
       {% endthumbnail %}
       </a>
+      <button><a href="{% url 'edit_album' id=id %}">Edit</a></button>
     {% endfor %}
 
     <h1>{{ user.username }}'s Photos</h1>
