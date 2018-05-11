@@ -37,6 +37,7 @@ class ProfileView(DetailView):
         albums_public = albums.filter(published='PUBLIC')
         albums_private = albums.filter(published='PRIVATE')
 
+        context['photos'] = photos
         context['photos_public'] = photos_public
         context['photos_private'] = photos_private,
         context['albums_public'] = albums_public,

@@ -26,6 +26,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
         """Profile meta model."""
 
         model = ImagerProfile
+
     bio = factory.Faker('company')
     phone = factory.Faker('phone_number')
     location = factory.Faker('country')
@@ -57,7 +58,7 @@ class PhotoFactory(factory.django.DjangoModelFactory):
         model = Photo
 
     title = factory.Faker('company')
-    date_uploaded = factory.Faker('date_time')
+    date_created = factory.Faker('date_time')
     date_modified = factory.Faker('date_time')
     published = 'PUBLIC'
 
@@ -70,7 +71,7 @@ class AlbumFactory(factory.django.DjangoModelFactory):
 
         model = Album
 
-    title = factory.Faker('company')
+    name = factory.Faker('company')
     date_created = factory.Faker('date_time')
     date_modified = factory.Faker('date_time')
     published = 'PUBLIC'
@@ -83,15 +84,12 @@ class ProfileUnitTests(TestCase):
     def setUpClass(cls):
         """Test setup."""
         super(TestCase, cls)
-        # fake = Faker()
+
         for _ in range(10):
             user = UserFactory.create()
             user.set_password(factory.Faker('password'))
             profile_thing(user.profile)
             user.save()
-
-            # profile = ProfileFactory.create(user=user)
-            # profile.save()
 
     @classmethod
     def tearDownClass(cls):
@@ -134,7 +132,6 @@ class ProfileViewTests(TestCase):
             self.photo = PhotoFactory.create(user=self.user)
             self.photo.save()
 
-            # photo.albums.add(album)
             self.album.photos.add(self.photo)
 
     @classmethod
@@ -154,10 +151,4 @@ class ProfileViewTests(TestCase):
         """Test profile view photos."""
         self.client.force_login(self.user)
         response = self.client.get(reverse_lazy('profile'))
-        self.assertEqual(len(response.context['photos']), 5)
-
-    def test_profile_view_num_photos(self):
-        """Test profile view num_photos."""
-        self.client.force_login(self.user)
-        response = self.client.get(reverse_lazy('profile'))
-        self.assertEqual(response.context['num_photos'], 5)
+        self.assertEqual(len(response.context['photos']), 1)
