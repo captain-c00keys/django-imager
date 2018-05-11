@@ -1,41 +1,32 @@
 {% extends 'generic/base.html' %}
+{% load sass_tags %}
 {% load thumbnail %}
-{% load i18n %}
 
 {% block content %}
 {% if user.is_authenticated %}
   <ul>
-
     <h1>{{ user.username }}'s Albums</h1>
     {% for album in albums %}
-        {% if album.cover %}
-            <a href="{% url 'album' album.id %}"><li><img src="{{ album.cover.url }}" height = 100, width= 100/></li></a>
-        {% else %}
-            <a href="{% url 'album' album.id %}"><li><img src="{% static 'default.jpeg' %}" height = 400, width= 300/></li></a>
-        {% endif %}
+      <a href="{% url 'album_detail' id=album.id %}">
+      {% thumbnail album.cover.image "100x100" crop="center" as im %}
+      <img title="{{album.title}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+      {% endthumbnail %}
+      </a>
+      <button><a href="{% url 'edit_album' id=album.id %}">Edit</a></button>
     {% endfor %}
 
-    {% for page_num in albums.paginator.page_range %}
-        <li><a href="?photo_page={{ photos.number }}&album_page={{ page_num }}">Page {{ page_num }}</a></li>
-    {% endfor %}
-
-    <hr />
     <h1>{{ user.username }}'s Photos</h1>
-    <hr />
 
     {% for photo in photos %}
-        <li><a href="{% url 'photo' photo.id %}"><img src="{{ photo.photo.url }}" height = 150, width= 150/></li>
+      {% thumbnail photo.image "100x100" crop="center" as im %}
+        <a href="{% url "photo_detail" id=photo.id %}"><img title="{{photo.title}}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>
+      {% endthumbnail %}       
     {% endfor %}
-
-    {% for page_num in photos.paginator.page_range %}
-        <li><a href="?photo_page={{ page_num }}&album_page={{ albums.number }}">Page {{ page_num }}</a></li>
-    {% endfor %}
-
 
   </ul>
 
-
 {% else %}
+  <h1>Please login to view library!</h1>
 {% endif %}
 
-{% endblock %}
+{% endblock content %}

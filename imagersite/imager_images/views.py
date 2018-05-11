@@ -1,78 +1,125 @@
 """Image Views."""
-
 from django.shortcuts import render, redirect, get_object_or_404
-from imager_images.models import Album, Photo
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .models import Album, Photo
 from django.contrib.auth.models import User
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import AlbumForm
 
 
-def library_view(request):
-    """Handle library view request."""
+class LibraryView(ListView):
+    """Render library page."""
+
+    template_name = 'imager_images/library.html'
+    context_object_name = 'library'
+
+    def get(self, *args, **kwargs):
+        """Retrieve keyword args."""
+        if not self.request.user.is_authenticated:
+            return redirect('home')
+
+        return super().get(*args, **kwargs)
+
+    def get_queryset(self):
+        """Filter object."""
+        # import pdb; pdb.set_trace()
+        photos = Photo.objects.filter(user__username=self.request
+                                      .user.username)
+        albums = Album.objects.filter(user__username=self.request
+                                      .user.username)
+        return photos, albums
+
+    def get_context_data(self, **kwargs):
+        """Pass context objects."""
+        context = super().get_context_data(**kwargs)
+        # import pdb; pdb.set_trace()
+        context['photos'] = context['library'][0]
+        context['albums'] = context['library'][1]
+        del context['library']
+
+        return context
+
+
+class PhotoView(ListView):
+    """Render public photos page."""
+
+    template_name = 'imager_images/photo.html'
+    context_object_name = 'photos'
+    queryset = Photo.objects.filter(published='PUBLIC')
+
+
+class PhotoDetail(DetailView):
+    """Render photo detail page."""
+
+    template_name = 'imager_images/photo_detail.html'
+    context_object_name = 'this_photo'
+    model = Photo
+    pk_url_kwarg = 'id'
+
+    def get_queryset(self):
+        """Filter object."""
+        return Photo.objects.filter(published='PUBLIC')
+
+
+class AddPhoto(CreateView):
+    """Add photo."""
+
+    template_name = 'imager_images/add_photo.html'
+    model = Photo
     # import pdb; pdb.set_trace()
-    username = request.user.get_username()
+    fields = ['image', 'title', 'description', 'published']
+    # form_class = AddPhotoForm
+    success_url = reverse_lazy('library')
 
-    if username == '':
-        return redirect('home')
-    profile = get_object_or_404(User, username=username)
-    photos = Photo.objects.filter(user__username=username)
-    albums = Album.objects.filter(user__username=username)
-
-    album_page = request.GET.get("album_page", 1)
-    photo_page = request.GET.get("photo_page", 1)
-
-    album_pages = Paginator(albums, 2)
-    photo_pages = Paginator(photos, 4)
-
-    try:
-        albums = album_pages.page(album_page)
-        photos = photo_pages.page(photo_page)
-    except PageNotAnInteger:
-        albums = album_pages.page(1)
-        photos = photo_pages.page(1)
-    except EmptyPage:
-        albums = album_pages.page(album_pages.num_pages)
-        photos = photo_pages.page(photo_pages.num_pages)
-
-    context = {
-        'photos': photos,
-        'albums': albums,
-        'username': username,
-    }
-
-    return render(request, 'imager_images/library.html', context)
+    def form_valid(self, form):
+        """If form is valid, save, assign user and re-direct."""
+        form.instance.user = self.request.user
+        return super(CreateView, self).form_valid(form)
 
 
-def album_view(request):
-    """Show all public albums."""
+class AlbumView(ListView):
+    """Render public albums page."""
 
-    public_albums = Album.objects.filter(published='PUBLIC')
-
-    context = {
-        'public_albums': public_albums,
-    }
-
-    return render(request, 'imager_images/album.html', context)
+    template_name = 'imager_images/album.html'
+    context_object_name = 'public_albums'
+    queryset = Album.objects.filter(published='PUBLIC')
 
 
-def photo_view(request):
-    """Define the library view."""
-    public_photos = Photo.objects.filter(published='PUBLIC')
+class AlbumDetail(DetailView):
+    """Render album detail page."""
+    template_name = 'imager_images/album_detail.html'
+    context_object_name = 'this_album'
+    model = Album
+    pk_url_kwarg = 'id'
+
+    def get_queryset(self):
+        """Filter object."""
+        return Album.objects.filter(published='PUBLIC')
+
+
+class AddAlbum(CreateView):
+    """Add photo."""
+
     # import pdb; pdb.set_trace()
+    template_name = 'imager_images/add_album.html'
+    model = Album
+    # form_class = AddAlbumForm
+    fields = ['user', 'cover', 'photos', 'name', 'published']
+    success_url = reverse_lazy('library')
 
-    context = {
-        'public_photos': public_photos,
-    }
+    def form_valid(self, form):
+        """If form is valid, save, assign user and re-direct."""
+        form.instance.user = self.request.user
+        return super(CreateView, self).form_valid(form)
 
-    return render(request, 'imager_images/photo.html', context)
 
+class EditAlbum(LoginRequiredMixin, UpdateView):
+    """Edit album."""
 
-def photo_detail_view(request, id=None):
-    """Define the library view."""
-    # import pdb; pdb.set_trace()
-    this_photo = Photo.objects.filter(id=id).first()
-
-    context = {
-        'this_photo': this_photo,
-    }
-
-    return render(request, 'imager_images/photo_detail.html', context)
+    template_name = 'imager_images/edit_album.html'
+    model = Album
+    form_class = AlbumForm
+    login_url = reverse_lazy('auth_login')
+    success_url = reverse_lazy('library')
+    pk_url_kwarg = 'id'

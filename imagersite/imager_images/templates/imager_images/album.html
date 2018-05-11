@@ -1,10 +1,12 @@
 {% extends "generic/base.html" %}
+{% load sass_tags %}
 {% load thumbnail %}
 {% load i18n %}
 
 {% block content %}
 <section class="public-album-container container">
     <h2>Public Albums</h2>
+    <a href="{% url "add_album" %}">Add Album</a>
     {% for album in public_albums %}
     {% thumbnail album.cover.image "100x100" crop="center" as im %}
         <a href="{% url "album_detail" id=album.id %}"><img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"></a>

@@ -1,11 +1,13 @@
 
 body {
-    width: 1200px;
     background: lightcyan;
 }
 
 header {
    background: lightsalmon;
+   border-bottom-right-radius: 10px;
+   border-bottom-left-radius: 10px;
+   width: 100%;
 }
 
 h3 {
@@ -19,3 +21,8 @@ h3 {
 nav {
     margin: 10px;
 }
+
+main {
+    width: 1200px;
+}
+
