@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 
 
-class AlbumEditForm(ModelForm):
+class AlbumForm(ModelForm):
     """Definition for album edit form."""
 
     class Meta:

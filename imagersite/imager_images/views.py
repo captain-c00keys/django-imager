@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import AlbumEditForm
+from .forms import AlbumForm
 
 
 class LibraryView(ListView):
@@ -119,7 +119,7 @@ class EditAlbum(LoginRequiredMixin, UpdateView):
 
     template_name = 'imager_images/edit_album.html'
     model = Album
-    form_class = AlbumEditForm
+    form_class = AlbumForm
     login_url = reverse_lazy('auth_login')
     success_url = reverse_lazy('library')
     pk_url_kwarg = 'id'
