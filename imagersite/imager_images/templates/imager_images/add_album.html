@@ -2,7 +2,7 @@
 
 {% block content %}
   <form method="post" enctype="multipart/form-data">
-    <h2>Add Album</h2>
+    <h2 class="link-style">Add Album</h2>
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Upload</button>

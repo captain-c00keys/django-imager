@@ -113,6 +113,11 @@ class AddAlbum(CreateView):
         form.instance.user = self.request.user
         return super(CreateView, self).form_valid(form)
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['username'] = self.request.user.get_username()
+        return kwargs
+
 
 class EditAlbum(LoginRequiredMixin, UpdateView):
     """Edit album."""
@@ -123,3 +128,9 @@ class EditAlbum(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('auth_login')
     success_url = reverse_lazy('library')
     pk_url_kwarg = 'id'
+    # import pdb; pdb.set_trace()
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['username'] = self.request.user.get_username()
+        return kwargs
