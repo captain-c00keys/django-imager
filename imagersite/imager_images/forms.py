@@ -17,7 +17,7 @@ class AlbumForm(ModelForm):
     def __init__(self, *args, **kwargs):
         """."""
         username = kwargs.pop('username')
-        # import pdb; pdb.set_trace()
+        import pdb; pdb.set_trace()
         super().__init__(*args, **kwargs)
         self.fields['photos'].queryset = Photo.objects.filter(
             user__username=username)

@@ -2,7 +2,7 @@
 
 
 {% block content %}
-  <h2>Edit Album Form</h2>
+  <h2 class="link-style">Edit Album Form</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
