@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'imager_images',
     'sass_processor',
     'sorl.thumbnail',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
