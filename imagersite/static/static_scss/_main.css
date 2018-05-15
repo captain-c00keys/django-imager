@@ -84,6 +84,9 @@ nav ul li a:hover:before {
 .link-style {
   text-decoration: blink; }
 
+.table-style table {
+  width: 60vh; }
+
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.

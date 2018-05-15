@@ -73,15 +73,19 @@ nav ul li a:hover:before {
   transform: scaleX(1); }
 
 .box-text {
+  border-style: solid;
   display: table;
   padding: 2vh;
-  border-width: thick;
+  border-width: medium;
   background-color: moccasin;
   border-bottom-left-radius: 2vh;
   border-top-right-radius: 2vh; }
 
 .link-style {
   text-decoration: blink; }
+
+.table-style table {
+  width: 60vh; }
 
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 /**
