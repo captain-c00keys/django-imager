@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Environment=Debug=
-Environment=DB_Name={{ db_name }}
+Environment=DB_NAME={{ db_name }}
 Environment=SECRET_KEY={{ secret_key }}
 Environment=DB_USER={{ db_user }}
 Environment=DB_PASSWORD={{ db_password }}
