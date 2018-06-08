@@ -8,6 +8,7 @@ import factory
 
 
 class UserFactory(factory.django.DjangoModelFactory):
+
     """Creating test users."""
 
     class Meta:
@@ -58,7 +59,8 @@ class PhotoFactory(factory.django.DjangoModelFactory):
         model = Photo
 
     title = factory.Faker('company')
-    date_created = factory.Faker('date_time')
+    date_uploaded = factory.Faker('date_time')
+
     date_modified = factory.Faker('date_time')
     published = 'PUBLIC'
 
@@ -71,7 +73,7 @@ class AlbumFactory(factory.django.DjangoModelFactory):
 
         model = Album
 
-    name = factory.Faker('company')
+    title = factory.Faker('company')
     date_created = factory.Faker('date_time')
     date_modified = factory.Faker('date_time')
     published = 'PUBLIC'
@@ -90,6 +92,9 @@ class ProfileUnitTests(TestCase):
             user.set_password(factory.Faker('password'))
             profile_thing(user.profile)
             user.save()
+
+            # profile = ProfileFactory.create(user=user)
+            # profile.save()
 
     @classmethod
     def tearDownClass(cls):
@@ -132,6 +137,7 @@ class ProfileViewTests(TestCase):
             self.photo = PhotoFactory.create(user=self.user)
             self.photo.save()
 
+
             self.album.photos.add(self.photo)
 
     @classmethod
@@ -151,4 +157,11 @@ class ProfileViewTests(TestCase):
         """Test profile view photos."""
         self.client.force_login(self.user)
         response = self.client.get(reverse_lazy('profile'))
-        self.assertEqual(len(response.context['photos']), 1)
+        self.assertEqual(len(response.context['photos']), 5)
+
+    def test_profile_view_num_photos(self):
+        """Test profile view num_photos."""
+        self.client.force_login(self.user)
+        response = self.client.get(reverse_lazy('profile'))
+        self.assertEqual(response.context['num_photos'], 5)
+
