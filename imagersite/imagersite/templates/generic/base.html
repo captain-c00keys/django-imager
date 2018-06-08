@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 
 {% load static %}
+{% load sass_tags %}
 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="{% static "normalize.css" %}">
-  <link rel="stylesheet" href="{% static "skeleton.css" %}">
-  <link rel="stylesheet" href="{% static "base.css" %}">
-  <link rel="stylesheet" href="{% static "layout.css" %}">
-  <link rel="stylesheet" href="{% static "modules.css" %}">
+  <link href="{% sass_src 'static_scss/_main.scss' %}" rel="stylesheet" type="text/css" />
 
 
   <!-- <link rel="shortcut icon" href="{% static "static_image.png" %}" type="image/x-icon"> -->
@@ -24,7 +21,8 @@
         <li><a href="{% url "home" %}">Home</a></li>
         {% if user.is_authenticated %}
         <li><a href="{% url "profile" %}">Profile</a></li>
-        <li><a href="">Images</a></li>
+        <li><a href="{% url "photos" %}">Images</a></li>
+        <li><a href="{% url "albums" %}">Albums</a></li>
         <li><a href="{% url "library" %}">Library</a></li>
         <li><a href="{% url "auth_logout" %}">Logout</a></li>
         {% else %}
@@ -33,6 +31,8 @@
         {% endif %}
       </ul>
     </nav>
+    <section class="sec1"></section>
+    <section class="sec2"></section>
     {% if user.is_authenticated %}
     <h3>Welcome to the site {{ user.username }}</h3>
     {% endif %}
