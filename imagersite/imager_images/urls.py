@@ -1,4 +1,6 @@
 """Image Urls."""
+
+
 from django.urls import path
 from .views import LibraryView, PhotoView, AlbumView, \
      AlbumDetail, PhotoDetail, AddPhoto, AddAlbum, \

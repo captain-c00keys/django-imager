@@ -40,6 +40,15 @@ class LibraryView(ListView):
 
         return context
 
+    context = {
+        'profile': profile,
+        'photos': photos,
+        'albums': albums,
+        'username': username,
+        'album_pages': album_pages,
+        'photo_pages': album_pages
+    }
+
 
 class PhotoView(ListView):
     """Render public photos page."""
