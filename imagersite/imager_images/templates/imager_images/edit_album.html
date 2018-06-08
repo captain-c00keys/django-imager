@@ -1,12 +1,13 @@
 {% extends 'generic/base.html' %}
 
+
 {% block content %}
+  <h2 class="link-style">Edit Album Form</h2>
   <form method="post" enctype="multipart/form-data">
-    <h2 class="link-style">Add Album</h2>
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Upload</button>
+    <button type="submit">Submit</button>
   </form>
 
-  <p><a href="{% url 'home' %}">Return to home</a></p>
+  <p><a href="{% url 'home' %}">Return to Home</a></p>
 {% endblock %}

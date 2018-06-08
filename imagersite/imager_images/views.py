@@ -2,8 +2,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Album, Photo
 from django.contrib.auth.models import User
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import AlbumForm
 
 
 class LibraryView(ListView):
@@ -37,6 +39,15 @@ class LibraryView(ListView):
         del context['library']
 
         return context
+
+    context = {
+        'profile': profile,
+        'photos': photos,
+        'albums': albums,
+        'username': username,
+        'album_pages': album_pages,
+        'photo_pages': album_pages
+    }
 
 
 class PhotoView(ListView):
@@ -98,6 +109,7 @@ class AlbumDetail(DetailView):
 
 class AddAlbum(CreateView):
     """Add photo."""
+
     # import pdb; pdb.set_trace()
     template_name = 'imager_images/add_album.html'
     model = Album
@@ -109,3 +121,25 @@ class AddAlbum(CreateView):
         """If form is valid, save, assign user and re-direct."""
         form.instance.user = self.request.user
         return super(CreateView, self).form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['username'] = self.request.user.get_username()
+        return kwargs
+
+
+class EditAlbum(LoginRequiredMixin, UpdateView):
+    """Edit album."""
+
+    template_name = 'imager_images/edit_album.html'
+    model = Album
+    form_class = AlbumForm
+    login_url = reverse_lazy('auth_login')
+    success_url = reverse_lazy('library')
+    pk_url_kwarg = 'id'
+    # import pdb; pdb.set_trace()
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['username'] = self.request.user.get_username()
+        return kwargs

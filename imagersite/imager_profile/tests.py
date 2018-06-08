@@ -8,7 +8,8 @@ import factory
 
 
 class UserFactory(factory.django.DjangoModelFactory):
-    """Creating a bunch of users."""
+
+    """Creating test users."""
 
     class Meta:
         """User meta model."""
@@ -20,12 +21,13 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class ProfileFactory(factory.django.DjangoModelFactory):
-    """Creating a bunch of Imager Profiles."""
+    """Creating test Imager Profiles."""
 
     class Meta:
         """Profile meta model."""
 
         model = ImagerProfile
+
     bio = factory.Faker('company')
     phone = factory.Faker('phone_number')
     location = factory.Faker('country')
@@ -58,6 +60,7 @@ class PhotoFactory(factory.django.DjangoModelFactory):
 
     title = factory.Faker('company')
     date_uploaded = factory.Faker('date_time')
+
     date_modified = factory.Faker('date_time')
     published = 'PUBLIC'
 
@@ -83,7 +86,7 @@ class ProfileUnitTests(TestCase):
     def setUpClass(cls):
         """Test setup."""
         super(TestCase, cls)
-        # fake = Faker()
+
         for _ in range(10):
             user = UserFactory.create()
             user.set_password(factory.Faker('password'))
@@ -134,7 +137,7 @@ class ProfileViewTests(TestCase):
             self.photo = PhotoFactory.create(user=self.user)
             self.photo.save()
 
-            # photo.albums.add(album)
+
             self.album.photos.add(self.photo)
 
     @classmethod
@@ -161,3 +164,4 @@ class ProfileViewTests(TestCase):
         self.client.force_login(self.user)
         response = self.client.get(reverse_lazy('profile'))
         self.assertEqual(response.context['num_photos'], 5)
+

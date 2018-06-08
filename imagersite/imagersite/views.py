@@ -2,7 +2,6 @@
 
 from django.shortcuts import render
 from imager_images.models import Photo
-from random import choice
 from django.views.generic import TemplateView
 
 

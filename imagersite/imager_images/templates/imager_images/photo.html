@@ -4,7 +4,8 @@
 
 {% block content %}
 <section class="photo-container container">
-  <h2>Public Photos</h2>
+  <a class="link-style" href="{% url "add_photo" %}">Add Photo</a>
+  <h2 class="box-text">Public Photos</h2>
   {% for photo in photos %}
   <a href="{% url 'photo_detail' id=photo.id %}">
     {% thumbnail photo.image "75x75" crop="center" as im %}

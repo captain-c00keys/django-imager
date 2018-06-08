@@ -1,0 +1,14 @@
+[us-east-2b]
+18.222.56.113
+
+[us-east-2b:vars]
+ansible_ssh_user=ubuntu 
+ansible_ssh_private_key_file=~/.ssh/book-app.pem
+
+SECRET_KEY='08*z5wglp52o)=25c#u9f6p#cuk25j^h(07cq29&blts%%#xxl'
+DB_NAME='imager'
+DB_USER='imagerpg'
+DB_PASSWORD='code1234'
+DB_HOST='new-django-app.cxha8bxplltn.us-east-2.rds.amazonaws.com'
+ALLOWED_HOSTS='ec2-18-222-56-113.us-east-2.compute.amazonaws.com'
+DJANGO_SETTINGS=imagersite.production

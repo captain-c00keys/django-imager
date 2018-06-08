@@ -32,7 +32,7 @@ class Album(models.Model):
     )
 
     def __str__(self):
-        """User representaion of name."""
+        """User representation of name."""
         return '{}'.format(self.name)
 
 
